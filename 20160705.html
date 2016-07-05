@@ -1,0 +1,103 @@
+//radio, 塞年紀資料到JSON裡
+
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<body>
+
+<h2>Create Object from JSON String</h2>
+
+<input type="radio" name = "firstName" value="John"> John
+<input type="radio" name = "firstName" value="Emily" checked> Emily
+<input type="radio" name = "firstName" value="Peter"> Peter
+
+<br>
+<input type="radio" name = "lastName" value="Doe"> Doe
+<input type="radio" name = "lastName" value="Chou" checked> Chou
+<input type="radio" name = "lastName" value="Li"> Li
+<br>
+Age: <input type = "int" id = "age">
+
+<input type = "submit" id = "btn1">
+
+<script>
+
+//預選值
+f_name=$('input:radio:checked[name="firstName"]').val();
+l_name=$('input:radio:checked[name="lastName"]').val();
+
+//取得（單選）選項的方法 ( radio )
+$('input:radio[name="firstName"]').on( "click", function() {
+f_name=$('input:radio:checked[name="firstName"]').val();
+});
+$('input:radio[name="lastName"]').on( "click", function() {
+l_name=$('input:radio:checked[name="lastName"]').val();
+});
+
+//if there is any button hit that is not going to cause the text to be changed just ignore it
+$('#age').keyup(function () {
+    if (this.value != this.value.replace(/[^\d.]/g, '')) { //正規化，判斷數字
+       this.value = this.value.replace(/[^\d.]/g, '');
+
+    }
+    if(Math.floor(this.value) != this.value) //判斷整數
+    { 
+         alert('Please insert a interger!');
+    }
+    if(Math.floor(this.value) <0 || Math.floor(this.value) >120) //年紀0-120歲
+    { 
+         alert('Please insert 0-120!');
+    }
+});
+
+$("#btn1").click(function(){
+
+     //Get the value in an input text box
+     //var bla = $('#txt_name').val();
+     //Set
+     //$('#txt_name').val('bla');
+     var temp = $('#age').val();
+
+     todo(temp);
+});
+
+function todo(inp)
+{
+
+var text = '{"employees":[' +
+'{"firstName":"John","lastName":"Doe" },' +
+'{"firstName":"Anna","lastName":"Smith" },' +
+'{"firstName":"Peter","lastName":"Jones" }]}';
+obj = JSON.parse(text);
+
+arrayList = [3];
+arrayList = obj.employees;
+
+for(i=0;i<obj.employees.length; i++){
+   if(arrayList[i].firstName == f_name && arrayList[i].lastName ==l_name){
+     arrayList[i] = {"firstName":f_name,"lastName":l_name, "age":inp};
+     break;
+   }
+   else{
+     var Eobj=new Object();
+     Eobj = {"firstName":f_name,"lastName":l_name, "age":inp};
+     arrayList.push(Eobj);
+     break;
+   }
+}
+Eobj=new Object();
+Eobj.firstName = "Huang";
+Eobj.lastName= "Hon";
+arrayList.push(Eobj);
+
+var obj2=new Object();
+obj2.employees = arrayList;
+var jsonText = JSON.stringify(obj2);
+document.write(jsonText);
+
+}
+</script>
+
+</body>
+</html>
