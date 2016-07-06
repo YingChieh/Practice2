@@ -15,3 +15,6 @@ http://jqueryui.com/datepicker/
 
 Dialog | jQuery UI
 http://jqueryui.com/dialog/
+
+jQuery影片快速導覽教學
+http://try.jquery.com/
